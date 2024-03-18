@@ -1,10 +1,19 @@
 import { useDispatch } from "react-redux";
-import { toggleLoginWidget } from "../../features/authSlice";
+import { toggleLoginWidget,userLogin } from "../../features/authSlice";
+import { useState } from "react";
 
 
 
 const LoginModal = () => {
     const dispatch = useDispatch();
+    const [loginFormInput,setLoginFormInput] = useState({email:'',password:''})
+    const handleLoginInput = (e) => {
+        setLoginFormInput({...loginFormInput,[e.target.name]:e.target.value})
+    }
+    const handleSubmitLogin = (event) => {
+        event.preventDefault()
+        dispatch(userLogin(loginFormInput))
+    }
     return <>
           <div
             className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
@@ -27,17 +36,17 @@ const LoginModal = () => {
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
                   <div className="p-4 md:p-5">
-                <form className="space-y-4" action="#">
+                <form onSubmit={()=>handleSubmitLogin(event)} className="space-y-4" action="#">
                     <div>
                         <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                        <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name@company.com" required />
+                        <input type="email" name="email" id="email" onChange={()=>handleLoginInput(event)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name@company.com" required />
                     </div>
                     <div>
                         <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>
-                        <input type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+                        <input type="password" name="password" id="password"  onChange={()=>handleLoginInput(event)}placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
                     </div>
                 
-                    <button type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login to your account</button>
+                    <button type="submit"  className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login to your account</button>
                     <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
                         Not registered? <a href="#" className="text-blue-700 hover:underline dark:text-blue-500">Create account</a>
                     </div>
