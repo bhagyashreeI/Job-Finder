@@ -8,9 +8,12 @@ const MainBody = () => {
     return <div className="container ">
         <Header />
         <div className="px-4 py-10">
-          {user.userInfo && <h1>
-            Welcome {user.userInfo.displayName}
-          </h1>}
+          {user.userInfo && <span className="text-center p-2">
+              <h1>
+                Welcome {user.userInfo.displayName}
+              </h1>
+              <p>Expore the jobs by applying below filters</p>
+            </span>}
           <FilterBy />
         </div>
       </div>;
