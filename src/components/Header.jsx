@@ -1,19 +1,56 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import LoginModal from "./Modals/LoginModal";
 import { useDispatch, useSelector } from "react-redux";
-
-import { toggleLoginWidget, logoutUser } from "../features/authSlice";
+import { onAuthStateChanged,signOut } from "firebase/auth";
+import {
+  toggleLoginWidget,
+  logoutUser,
+  userLogin,
+} from "../features/authSlice";
+import { auth } from "../utils/firebase";
 
 const Header = () => {
   const loginModalState = useSelector(store => store.auth.showLoginMoal);
-  const isUserLoggedInState = useSelector(store => store.auth.isUserLoggedIn);
+  const isUserLoggedInState = useSelector(store => store.auth.userInfo);
   const dispatch = useDispatch();
   const showLoginBlock = () => {
     dispatch(toggleLoginWidget());
   };
   const setUserLogout = () => {
-    dispatch(logoutUser());
+    //dispatch(logoutUser());
+    signOut(auth)
+      .then(() => {
+        dispatch(logoutUser())
+      })
+      .catch((error) => {});
   };
+
+  useEffect(() => {
+    const unsubcribe = onAuthStateChanged(auth, user => {
+      if (user) {
+        //navigate("/browse");
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/auth.user
+        const { uid, displayName, email } = user;
+
+        dispatch(userLogin({
+            uid: user.uid,
+            displayName: user.displayName,
+            email: user.email,
+          }));
+      } else {
+        //navigate("/");
+        dispatch(logoutUser());
+      }
+    });
+
+    // this will be called when our component will be unmounted
+    return () => {
+      unsubcribe();
+    };
+  }, []);
+
+
   return (
     <header>
       <nav className="bg-white border-gray-200 dark:bg-gray-900">

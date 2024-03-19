@@ -1,21 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice,current } from "@reduxjs/toolkit";
 
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     showLoginMoal: false,
-    isUserLoggedIn:false,
+    userInfo:null
   },
   reducers: {
     toggleLoginWidget: (state, action) => {
       state.showLoginMoal = !state.showLoginMoal;
     },
     userLogin: (state, action) => {
-      state.isUserLoggedIn = true;
-      state.showLoginMoal = false;
+       state.userInfo = action.payload;
+       state.showLoginMoal = false;
     },
     logoutUser: (state,action) => {
-        state.isUserLoggedIn = false 
+        state.userInfo = null; 
     }
   },
 });
