@@ -4,13 +4,16 @@ import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import MainBody from './components/MainBody.jsx';
 import './index.css'
 import { Provider } from 'react-redux';
-import store from './store/store.js';
+import {store,persistor} from './store/store.js';
+import { PersistGate } from "redux-persist/integration/react";
 
 const AppLayout = () => {
   return <Provider store={store}>
-      <React.Fragment>
-        <Outlet />
-      </React.Fragment>
+      <PersistGate loading={null} persistor={persistor}>
+        <React.Fragment>
+          <Outlet />
+        </React.Fragment>
+      </PersistGate>
     </Provider>;
 }
 
