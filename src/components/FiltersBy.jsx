@@ -1,6 +1,6 @@
 const FiltersBy = () => {
   return (<>
-      <div className="grid gap-2 grid-flow-row-dense grid-cols-3 grid-rows-3 ...">
+      <div className="grid gap-2 grid-flow-row-dense grid-cols-3  ">
         <div>
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
